@@ -1,0 +1,27 @@
+:root {
+  --main-font: 'Lubrifont', serif;
+  --clock-font: 'Clock', serif;
+  --active-timer-color: #ff9500;
+  --inactive-color: #444;
+  --text-color: #cccccc;
+  --paused-color: #abcdef;
+  --main-timer-size: 80px;
+  --card-timer-size: 48px;
+  --pause-text-size: 32px;
+  --text-size: 20px;
+  --main-bg: radial-gradient(120% 120% at 20% 10%, #2a2f38 0%, #1a1d24 60%, #14161b 100%);
+
+  --test-border: 1px solid #f00;
+
+  --flint-100: #5a5e68;
+  --flint-200: #44474f;
+  --flint-300: #353840;
+  --flint-400: #282b32;
+  --flint-500: #1e2028;
+  --flint-600: #15171d;
+  --flint-700: #0e1014;
+  --flint-800: #08090c;
+  --ember: #ff6a00;
+  --ember-hot: #ffaa30;
+  --ember-white: #fff4e0;
+}

@@ -1,6 +1,26 @@
 {
+  "plugins": ["@trivago/prettier-plugin-sort-imports"],
+  "importOrder": [
+    "^(vue|vue-router|pinia|axios)$",
+    "^@/store/(.*)$",
+    "^@/features/(.*)$",
+    "^(@/*/types.ts|@/*/types/*)$",
+    "^[./]"
+  ],
+  "importOrderSeparation": true,
   "$schema": "https://json.schemastore.org/prettierrc",
-  "semi": false,
+  "htmlWhitespaceSensitivity": "ignore",
+  "vueIndentScriptAndStyle": false,
+  "singleAttributePerLine": true,
+  "bracketSameLine": false,
+  "trailingComma": "none",
+  "bracketSpacing": true,
+  "proseWrap": "always",
+  "arrowParens": "avoid",
   "singleQuote": true,
-  "printWidth": 100
+  "endOfLine": "auto",
+  "printWidth": 80,
+  "useTabs": false,
+  "tabWidth": 2,
+  "semi": false
 }

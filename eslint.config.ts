@@ -1,26 +1,141 @@
-import { globalIgnores } from 'eslint/config'
-import { defineConfigWithVueTs, vueTsConfigs } from '@vue/eslint-config-typescript'
+import { defineConfigWithVueTs } from '@vue/eslint-config-typescript'
+import eslintConfigPrettier from 'eslint-config-prettier'
 import pluginVue from 'eslint-plugin-vue'
-import pluginOxlint from 'eslint-plugin-oxlint'
-import skipFormatting from 'eslint-config-prettier/flat'
-
-// To allow more languages other than `ts` in `.vue` files, uncomment the following lines:
-// import { configureVueProject } from '@vue/eslint-config-typescript'
-// configureVueProject({ scriptLangs: ['ts', 'tsx'] })
-// More info at https://github.com/vuejs/eslint-config-typescript/#advanced-setup
+import tseslint from 'typescript-eslint'
+import vueParser from 'vue-eslint-parser'
 
 export default defineConfigWithVueTs(
   {
-    name: 'app/files-to-lint',
-    files: ['**/*.{vue,ts,mts,tsx}'],
+    ignores: ['node_modules/**', 'dist/**', '*.d.ts'],
   },
-
-  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
-
-  ...pluginVue.configs['flat/essential'],
-  vueTsConfigs.recommended,
-
-  ...pluginOxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
-
-  skipFormatting,
+  {
+    files: ['**/*.{js,ts}'],
+    languageOptions: {
+      ecmaVersion: 'latest',
+      sourceType: 'module',
+      parserOptions: {
+        parser: tseslint.parser,
+      },
+    },
+    extends: [...tseslint.configs.recommended, eslintConfigPrettier],
+    rules: {
+      'no-unused-expressions': 'off',
+      '@typescript-eslint/no-unused-expressions': [
+        'warn',
+        { allowShortCircuit: true, allowTernary: true },
+      ],
+      'no-debugger': 'warn',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': 'warn',
+      'max-len': [
+        2,
+        {
+          ignoreStrings: true,
+          code: 80,
+          tabWidth: 2,
+          ignoreComments: true,
+          ignoreUrls: true,
+          ignoreTrailingComments: false,
+          ignorePattern: '\\s*background-image:\\s*url\\(',
+        },
+      ],
+      'padding-line-between-statements': [
+        'error',
+        {
+          blankLine: 'always',
+          prev: 'block-like',
+          next: '*',
+        },
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: 'if',
+        },
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: 'return',
+        },
+      ],
+      'space-before-function-paren': [
+        'error',
+        {
+          anonymous: 'always',
+          named: 'never',
+          asyncArrow: 'always',
+        },
+      ],
+    },
+  },
+  {
+    files: ['*.vue', '**/*.vue'],
+    languageOptions: {
+      parser: vueParser,
+      parserOptions: {
+        parser: {
+          ts: '@typescript-eslint/parser',
+          js: 'espree',
+        },
+        sourceType: 'module',
+        ecmaVersion: 'latest',
+      },
+    },
+    extends: [
+      ...tseslint.configs.recommended,
+      eslintConfigPrettier,
+      pluginVue.configs['flat/recommended'],
+    ],
+    rules: {
+      'vue/singleline-html-element-content-newline': 'off',
+      'vue/block-lang': 'off',
+      'vue/html-indent': 'off',
+      'vue/multi-word-component-names': 'off',
+      'vue/prop-name-casing': 0,
+      'vue/require-default-prop': 0,
+      '@typescript-eslint/no-unused-expressions': 'off',
+      'vue/html-self-closing': [
+        'error',
+        {
+          html: {
+            void: 'always',
+            normal: 'always',
+            component: 'always',
+          },
+          svg: 'always',
+          math: 'always',
+        },
+      ],
+      'padding-line-between-statements': [
+        'error',
+        {
+          blankLine: 'always',
+          prev: 'block-like',
+          next: '*',
+        },
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: 'if',
+        },
+        {
+          blankLine: 'always',
+          prev: '*',
+          next: 'return',
+        },
+      ],
+      'vue/max-len': [
+        'error',
+        {
+          template: 80,
+          ignoreStrings: true,
+          code: 80,
+          tabWidth: 2,
+          ignoreComments: true,
+          ignoreUrls: true,
+          ignoreTrailingComments: false,
+          ignorePattern: '\\s*background-image:\\s*url\\(',
+        },
+      ],
+    },
+  },
 )
